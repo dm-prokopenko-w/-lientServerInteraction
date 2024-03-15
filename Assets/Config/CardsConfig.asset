@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af206aa57435e594a9c5b03247d43ab3, type: 3}
   m_Name: CardsConfig
   m_EditorClassIdentifier: 
+  Id: CardsConfig
   Cards:
   - Id: Blue
-    Prefab: {fileID: 5561687404223474768, guid: 165dd1cda6651654e9143537dcaf83e3, type: 3}
+    Prefab: {fileID: 3496571645761453753, guid: 165dd1cda6651654e9143537dcaf83e3, type: 3}
   - Id: Green
-    Prefab: {fileID: 4764858981505391608, guid: 77bd9bf95f2635a4a88a1e1d32c33770, type: 3}
+    Prefab: {fileID: 2718763469311820475, guid: 77bd9bf95f2635a4a88a1e1d32c33770, type: 3}
   - Id: Purple
-    Prefab: {fileID: 341677528595445316, guid: 614f0ba8c3dba9e4094399c66259ad69, type: 3}
+    Prefab: {fileID: 4150114855865210518, guid: 614f0ba8c3dba9e4094399c66259ad69, type: 3}
   - Id: Red
-    Prefab: {fileID: 7427093872681630703, guid: e7ff303b2c39924439a0cea1a07e138b, type: 3}
+    Prefab: {fileID: 5530125107159010092, guid: e7ff303b2c39924439a0cea1a07e138b, type: 3}
   - Id: Yellow
-    Prefab: {fileID: 2565168630462927860, guid: 257c50c1b533e234081ab0fc63b06eca, type: 3}
+    Prefab: {fileID: 6968647438199448961, guid: 257c50c1b533e234081ab0fc63b06eca, type: 3}

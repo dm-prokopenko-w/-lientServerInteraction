@@ -1,3 +1,7 @@
+using System;
+using CardsSystem;
+using Game.UI;
+using NetworkSystem;
 using VContainer;
 using VContainer.Unity;
 
@@ -7,13 +11,13 @@ namespace Core
 	{
 		protected override void Configure(IContainerBuilder builder)
 		{
-			/*
-			builder.Register<ControlModule>(Lifetime.Scoped);
 			builder.Register<AssetLoader>(Lifetime.Scoped);
-			builder.Register<SaveModule>(Lifetime.Scoped);
-			builder.Register<ProgressController>(Lifetime.Scoped).As<ProgressController, IStartable>();
-			builder.Register<ControllerVFX>(Lifetime.Scoped).As<ControllerVFX, IStartable, IDisposable>();
-			*/
+
+			builder.Register<ClientController>(Lifetime.Scoped).As<ClientController, IStartable>();
+			builder.Register<CardsController>(Lifetime.Scoped).As<CardsController, IStartable>();
+			builder.Register<ButtonsMenuController>(Lifetime.Scoped).As<ButtonsMenuController, IStartable, IDisposable>();
+			builder.Register<PopupController>(Lifetime.Scoped);
+			builder.Register<UIController>(Lifetime.Scoped);
 		}
 	}
 }

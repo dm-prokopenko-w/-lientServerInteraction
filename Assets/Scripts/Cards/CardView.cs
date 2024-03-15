@@ -9,10 +9,25 @@ namespace CardsSystem
 		[SerializeField] private Animator _anim;
 		[SerializeField] private GameObject _effect;
 
-		public void Init(bool isAnim)
+		public int Id => _id;
+		private bool _isAnimated;
+		private int _id;
+		
+		public void Init(int id, bool isAnim)
 		{
+			_id = id;
 			_anim.enabled = isAnim;
-			_effect.gameObject.SetActive(isAnim);
+			_isAnimated = isAnim;
+			
+			ActiveEffect(isAnim);
+		}
+
+		public void ActiveEffect(bool value)
+		{
+			if (_isAnimated)
+			{
+				_effect.gameObject.SetActive(value);
+			}
 		}
 	}
 }

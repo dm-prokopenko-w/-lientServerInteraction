@@ -15,6 +15,6 @@ namespace CardsSystem
 	public class CardData
 	{
 		public string Id;
-		public GameObject Prefab;
+		public CardView Prefab;
 	}
 }
