@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace CardsSystem
@@ -9,22 +7,20 @@ namespace CardsSystem
 		[SerializeField] private Animator _anim;
 		[SerializeField] private GameObject _effect;
 
-		public int Id => _id;
+		public CardItem Item { get; private set; }
 		private bool _isAnimated;
-		private int _id;
 		
-		public void Init(int id, bool isAnim)
+		public void Init(CardItem item)
 		{
-			_id = id;
-			_anim.enabled = isAnim;
-			_isAnimated = isAnim;
+			Item = item;
+			_anim.enabled = item.isAnimated;
 			
-			ActiveEffect(isAnim);
+			ActiveEffect(_isAnimated);
 		}
 
 		public void ActiveEffect(bool value)
 		{
-			if (_isAnimated)
+			if (Item.isAnimated)
 			{
 				_effect.gameObject.SetActive(value);
 			}

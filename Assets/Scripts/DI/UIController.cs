@@ -87,11 +87,14 @@ namespace Game.UI
 			{
 				foreach (var item in items)
 				{ 
-					if(item.Drop == null) continue;
 					if (isResetBtn) item.Btn.onClick.RemoveAllListeners();
 					if (item.Input == null)
 					{
 						item.Btn.onClick.AddListener(() => func(item.Drop.captionText.text, item.Tgl.isOn, null));
+					}
+					else if (item.Drop == null)
+					{
+						item.Btn.onClick.AddListener(() => func(null, item.Tgl.isOn, item.Input.text));
 					}
 					else
 					{

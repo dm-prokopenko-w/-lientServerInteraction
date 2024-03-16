@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
+using static UnityEditor.Progress;
 
 namespace CardsSystem
 {
@@ -15,16 +16,16 @@ namespace CardsSystem
 		[Inject] private UIController _uiController;
 
 		public Action<int> OnUpdateCountCards;
-		private Dictionary<string, CardView> _cardsType = new ();
-		private List<CardView> _activeCards = new ();
-		
+		private Dictionary<string, CardView> _cardsType = new();
+		private List<CardView> _activeCards = new();
+
 		private ObjectPool<CardView> _pool;
 		private Transform _parent;
-		
+
 		public async void Start()
 		{
 			var data = await _assetLoader.LoadConfig(Constants.CardsConfigPath) as CardsConfig;
-			
+
 			InitCards(data.Cards);
 			InitColorsDropdownOptions(data.Cards);
 		}
@@ -41,7 +42,7 @@ namespace CardsSystem
 				_cardsType.Add(item.Id, item.Prefab);
 			}
 		}
-		
+
 		private void InitColorsDropdownOptions(List<CardData> cards)
 		{
 			var drops = _uiController.GetDropdown(Constants.DropdownColors);
@@ -51,7 +52,7 @@ namespace CardsSystem
 				Debug.LogError("Check the dropdowns for colors.");
 				return;
 			}
-			
+
 			foreach (var drop in drops)
 			{
 				drop.options.Clear();
@@ -62,22 +63,56 @@ namespace CardsSystem
 				drop.value = 1;
 			}
 		}
-		
+
+		public bool UpdateCard(CardItem card)
+		{
+			var view = _activeCards.Find(x => x.Item.id == card.id);
+			if (view == null) return false;
+			List<CardItem> cards = new List<CardItem>();
+
+			foreach (var item in _activeCards)
+			{
+				if (item.Item.id == card.id)
+				{
+					cards.Add(card);
+				}
+				else
+				{
+					cards.Add(new CardItem
+					{
+						id = item.Item.id,
+						isAnimated = item.Item.isAnimated,
+						colorType = item.Item.colorType
+					});
+				}
+			}
+
+			UpdateCards(cards);
+
+			return true;
+		}
+
 		public void UpdateCards(List<CardItem> cards)
 		{
-			ActiveCards(false);
+			List<CardView> views = new List<CardView>( _activeCards);
+			for (int i = 0; i < views.Count; i++)
+			{
+				Despawn(views[i].Item.id);
+			}
+			_activeCards.Clear();
+
 			foreach (var card in cards)
 			{
 				Spawn(card);
 			}
 		}
-		
+
 		public void Spawn(CardItem item)
 		{
 			if (_cardsType.TryGetValue(item.colorType, out CardView prefab))
 			{
 				var view = _pool.Spawn(prefab, _parent);
-				view.Init(item.id, item.isAnimated);
+				view.Init(item);
 				_activeCards.Add(view);
 				OnUpdateCountCards?.Invoke(_activeCards.Count);
 			}
@@ -89,13 +124,13 @@ namespace CardsSystem
 
 		public void Despawn(int num)
 		{
-			var view = _activeCards.Find(x => x.Id == num);
-			if(view == null) return;
+			var view = _activeCards.Find(x => x.Item.id == num);
+			if (view == null) return;
 			_pool.Despawn(view);
 			_activeCards.Remove(view);
 			OnUpdateCountCards?.Invoke(_activeCards.Count);
 		}
-		
+
 		public void ActiveCards(bool value)
 		{
 			foreach (var view in _activeCards)
