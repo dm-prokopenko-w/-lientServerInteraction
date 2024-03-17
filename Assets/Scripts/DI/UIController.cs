@@ -100,18 +100,6 @@ namespace Game.UI
 			return null;
 		}
 		
-		public void SetAction(string id, UnityAction<string> func)
-		{
-			if (_items.TryGetValue(id, out List<ItemUI> items))
-			{
-				foreach (var item in items)
-				{
-					if (item.Input == null) continue;
-					item.Btn.onClick.AddListener(() => func(item.Input.text));
-				}
-			}
-		}
-
 		public void SetAction(string id, UnityAction func)
 		{
 			if (_items.TryGetValue(id, out List<ItemUI> items))

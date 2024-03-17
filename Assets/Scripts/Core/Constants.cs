@@ -9,6 +9,7 @@ namespace Core
 		public const string NumsCards = "The number of cards: ";
 		public const string TextCountCards = "TextCountCards";
 		public const string ErrorText = "ErrorText";
+		public const string Error = "The card with this number does not exist.";
 		
 		public const string ShowKey = "Show";
 		public const string HideKey = "Hide";

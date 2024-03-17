@@ -6,7 +6,6 @@ using TMPro;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
-using static UnityEditor.Progress;
 
 namespace CardsSystem
 {
@@ -141,7 +140,7 @@ namespace CardsSystem
 	}
 
 	[Serializable]
-	public struct CardItem
+	public class CardItem
 	{
 		public bool isAnimated;
 		public string colorType;

@@ -14,6 +14,7 @@ namespace Game.UI
 		[SerializeField] private TMP_InputField _input;
 
 		[SerializeField] private Toggle _toggleIsRefreshAll;
+		[SerializeField] private GameObject _inputParent;
 
 		[Inject]
 		public override void Construct()
@@ -27,7 +28,7 @@ namespace Game.UI
 
 			_uiController.AddItemUI(IsRefreshAllCards + _type, new ItemUI(_toggleIsRefreshAll));
 
-			_toggleIsRefreshAll.onValueChanged.AddListener((bool value) => _input.gameObject.SetActive(!value));
+			_toggleIsRefreshAll.onValueChanged.AddListener((bool value) => _inputParent.SetActive(!value));
 			base.Construct();
 		}
 	}

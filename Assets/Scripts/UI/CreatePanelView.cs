@@ -20,6 +20,7 @@ namespace Game.UI
 
 			_uiController.AddItemUI(DropdownColors, new ItemUI(_dropdown));
 			_uiController.AddItemUI(DropdownColors + _type, new ItemUI(_dropdown));
+
 			base.Construct();
 		}
 	}

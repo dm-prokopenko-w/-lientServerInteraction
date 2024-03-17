@@ -20,12 +20,5 @@ namespace Core
             _configs.Add(handle.Result);
             return handle.Result;
         }
-
-        public async Task<T> LoadAsset<T>(string path)
-        {
-            var handle = Addressables.LoadAssetAsync<T>(path);
-            await handle.Task;
-            return handle.Result;
-        }
     }
 }
