@@ -23,7 +23,7 @@ namespace Game.UI
 			}
 		}
 		
-		public List<TMP_Dropdown> GetDropdown(string id)
+		public List<TMP_Dropdown> GetDropdowns(string id)
 		{
 			if (_items.TryGetValue(id, out List<ItemUI> items))
 			{
@@ -36,6 +36,49 @@ namespace Game.UI
 				}
 
 				return drops;
+			}
+
+			return null;
+		}
+
+		public TMP_Dropdown GetDropdown(string id)
+		{
+			if (_items.TryGetValue(id, out List<ItemUI> items))
+			{
+				foreach (var item in items)
+				{
+					if (item.Drop == null) continue;
+					return item.Drop;
+				}
+			}
+
+			return null;
+		}
+
+		public TMP_InputField GetInputField(string id)
+		{
+			if (_items.TryGetValue(id, out List<ItemUI> items))
+			{
+				foreach (var item in items)
+				{
+					if (item.Input == null) continue;
+					return item.Input;
+				}
+			}
+
+			return null;
+		}
+
+		public Toggle GetToggle(string id)
+		{
+			if (_items.TryGetValue(id, out List<ItemUI> items))
+			{
+				List<Toggle> drops = new();
+				foreach (var item in items)
+				{
+					if (item.Tgl == null) continue;
+					return item.Tgl;
+				}
 			}
 
 			return null;
@@ -76,34 +119,12 @@ namespace Game.UI
 				foreach (var item in items)
 				{
 					if (item.Btn == null) continue;
+					item.Btn.onClick.RemoveAllListeners();
 					item.Btn.onClick.AddListener(func);
 				}
 			}
 		}
 		
-		public void SetAction(string id, UnityAction<string, bool, string> func, bool isResetBtn = false)
-		{
-			if (_items.TryGetValue(id, out List<ItemUI> items))
-			{
-				foreach (var item in items)
-				{ 
-					if (isResetBtn) item.Btn.onClick.RemoveAllListeners();
-					if (item.Input == null)
-					{
-						item.Btn.onClick.AddListener(() => func(item.Drop.captionText.text, item.Tgl.isOn, null));
-					}
-					else if (item.Drop == null)
-					{
-						item.Btn.onClick.AddListener(() => func(null, item.Tgl.isOn, item.Input.text));
-					}
-					else
-					{
-						item.Btn.onClick.AddListener(() => func(item.Drop.captionText.text, item.Tgl.isOn, item.Input.text));
-					}
-				}
-			}
-		}
-
 		public void SetInteractableBtn(string id, bool value)
 		{
 			if (_items.TryGetValue(id, out List<ItemUI> items))
@@ -161,14 +182,6 @@ namespace Game.UI
 			Drop = drop;
 		}
 
-		public ItemUI(Button btn, Toggle toggle, TMP_Dropdown drop, TMP_InputField input)
-		{
-			Btn = btn;
-			Tgl = toggle;
-			Drop = drop;
-			Input = input;
-		}
-
 		public ItemUI(Animator anim)
 		{
 			Anim = anim;
@@ -179,9 +192,13 @@ namespace Game.UI
 			Text = text;
 		}
 		
-		public ItemUI(Button btn, TMP_InputField input)
+		public ItemUI(Toggle toggle)
 		{
-			Btn = btn;
+			Tgl = toggle;
+		}
+		
+		public ItemUI(TMP_InputField input)
+		{
 			Input = input;
 		}
 		

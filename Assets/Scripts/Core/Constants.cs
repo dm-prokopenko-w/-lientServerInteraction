@@ -14,8 +14,11 @@ namespace Core
 		public const string HideKey = "Hide";
 		
 		public const string PanelMainView = "PanelMainView";
-		public const string PanelView = "PanelView";
-		public const string Popup = "Popup";
+
+		public const string PopupAnim = "Popup";
+		public const string IsAnimatedCard = "IsAnimatedCard";
+		public const string IsRefreshAllCards = "IsRefreshAllCards";
+		public const string InputCountCard = "InputCountCard";
 		
 		public const string ActiveCards = "ActiveCards";
 		public const string InactiveCards = "InactiveCards";
@@ -23,6 +26,7 @@ namespace Core
 		public const string DropdownColors = "DropdownColors";
 		
 		public const string BtnClosePopup = "PanelView";
+		public const string BtnOkPopup = "BtnOkPopup";
 		
 		public const string URL = "https://65f1f7bf034bdbecc7642352.mockapi.io/cards";
 		

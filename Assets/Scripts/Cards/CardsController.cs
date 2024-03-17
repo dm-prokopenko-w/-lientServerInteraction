@@ -45,7 +45,7 @@ namespace CardsSystem
 
 		private void InitColorsDropdownOptions(List<CardData> cards)
 		{
-			var drops = _uiController.GetDropdown(Constants.DropdownColors);
+			var drops = _uiController.GetDropdowns(Constants.DropdownColors);
 
 			if (drops == null)
 			{

@@ -38,14 +38,17 @@ namespace NetworkSystem
 		public async void OnClickRefresh()
 		{
 			_popupController.ActivePopup(UIType.Refresh, true);
+			var input = _uiController.GetInputField(InputCountCard + UIType.Refresh);
+			var toggle = _uiController.GetToggle(IsRefreshAllCards + UIType.Refresh);
+
 			List<CardItem> cards = await WebRequestGetAll();
 			WriteNumsCards(cards, UIType.Refresh);
 
-			UnityAction<string, bool, string> refresh = RefreshCard;
-			_uiController.SetAction(PanelView + UIType.Refresh, refresh);
+			UnityAction<bool, string> refresh = RefreshCard;
+			_uiController.SetAction(BtnOkPopup + UIType.Refresh, () => refresh(toggle.isOn, input.text));
 		}
 
-		private async void RefreshCard(string colorType, bool isRefreshAll, string num)
+		private async void RefreshCard(bool isRefreshAll, string num)
 		{
 			List<CardItem> cards = await WebRequestGetAll();
 			if (isRefreshAll)
@@ -57,7 +60,7 @@ namespace NetworkSystem
 				var card = cards.Find(x => x.id == int.Parse(num));
 				if (card.IsUnityNull())
 				{
-					_uiController.SetText(ErrorText + UIType.Delete,
+					_uiController.SetText(ErrorText + UIType.Refresh,
 						"The card with this number does not exist, please enter a valid number from the list.");
 				}
 				else
@@ -65,7 +68,7 @@ namespace NetworkSystem
 					bool value = _cardsController.UpdateCard(card);
 					if (value)
 					{
-						_popupController.ActivePopup(UIType.Delete, false);
+						_popupController.ActivePopup(UIType.Refresh, false);
 					}
 					else
 					{
@@ -81,11 +84,15 @@ namespace NetworkSystem
 		private async void OnClickUpdate()
 		{
 			_popupController.ActivePopup(UIType.Update, true);
+			var input = _uiController.GetInputField(InputCountCard + UIType.Update);
+			var toggle = _uiController.GetToggle(IsAnimatedCard + UIType.Update);
+			var drop = _uiController.GetDropdown(DropdownColors + UIType.Update);
+
 			List<CardItem> cards = await WebRequestGetAll();
 			WriteNumsCards(cards, UIType.Update);
 
 			UnityAction<string, bool, string> update = UpdateCard;
-			_uiController.SetAction(PanelView + UIType.Update, update);
+			_uiController.SetAction(BtnOkPopup + UIType.Update, () => update(drop.captionText.text, toggle.isOn, input.text));
 		}
 
 		private async void UpdateCard(string colorType, bool isAnimated, string num)
@@ -102,11 +109,11 @@ namespace NetworkSystem
 				};
 
 				_cardsController.UpdateCard(item);
-				_popupController.ActivePopup(UIType.Delete, false);
+				_popupController.ActivePopup(UIType.Update, false);
 			}
 			else
 			{
-				_uiController.SetText(ErrorText + UIType.Delete,
+				_uiController.SetText(ErrorText + UIType.Update,
 					"The card with this number does not exist, please enter a valid number from the list.");
 			}
 		}
@@ -137,11 +144,14 @@ namespace NetworkSystem
 		/// </summary>
 		private void OnClickCreate()
 		{
-			_uiController.SetAction(PanelView + UIType.Create, WebRequestPost, true);
+			var toggle = _uiController.GetToggle(IsAnimatedCard + UIType.Create);
+			var drop = _uiController.GetDropdown(DropdownColors + UIType.Create);
+
+			_uiController.SetAction(BtnOkPopup + UIType.Create, () => WebRequestPost(drop.captionText.text, toggle.isOn));
 			_popupController.ActivePopup(UIType.Create, true);
 		}
 
-		private async void WebRequestPost(string colorType, bool isAnimated, string num)
+		private async void WebRequestPost(string colorType, bool isAnimated)
 		{
 			WWWForm form = new WWWForm();
 			CardItem item = new CardItem()
@@ -181,7 +191,7 @@ namespace NetworkSystem
 			WriteNumsCards(cards, UIType.Delete);
 
 			UnityAction<string> delete = DeleteCard;
-			_uiController.SetAction(PanelView + UIType.Delete, delete);
+			_uiController.SetAction(BtnOkPopup + UIType.Delete, delete);
 		}
 
 		private async void DeleteCard(string num)

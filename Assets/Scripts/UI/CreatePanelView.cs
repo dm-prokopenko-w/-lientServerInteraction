@@ -6,24 +6,21 @@ using static Core.Constants;
 
 namespace Game.UI
 {
-    public class CreatePanelView : MonoBehaviour
-    {
-        [Inject] private UIController _uiController;
-
-        [SerializeField] private UIType _type;
-        [SerializeField] private Button _buttonOk;
+    public class CreatePanelView : PopupView
+	{
         [SerializeField] private Toggle _toggleIsAnimated;
         [SerializeField] private TMP_Dropdown _dropdown;
-        [SerializeField] private Animator _anim;
-        [SerializeField] private Button _buttonCancel;
 
         [Inject]
-        public void Construct()
+        public override void Construct()
         {
-            _uiController.AddItemUI(Popup + _type, new ItemUI(_anim));
-            _uiController.AddItemUI(DropdownColors, new ItemUI(_dropdown));
-            _uiController.AddItemUI(PanelView + _type, new ItemUI(_buttonOk, _toggleIsAnimated, _dropdown, null));
-            _uiController.AddItemUI(BtnClosePopup + _type, new ItemUI(_buttonCancel));
-        }
-    }
+			_type = UIType.Create;
+
+			_uiController.AddItemUI(IsAnimatedCard + _type, new ItemUI(_toggleIsAnimated));
+
+			_uiController.AddItemUI(DropdownColors, new ItemUI(_dropdown));
+			_uiController.AddItemUI(DropdownColors + _type, new ItemUI(_dropdown));
+			base.Construct();
+		}
+	}
 }

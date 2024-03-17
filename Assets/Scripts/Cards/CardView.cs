@@ -14,8 +14,7 @@ namespace CardsSystem
 		{
 			Item = item;
 			_anim.enabled = item.isAnimated;
-			
-			ActiveEffect(_isAnimated);
+			_effect.gameObject.SetActive(item.isAnimated);
 		}
 
 		public void ActiveEffect(bool value)
